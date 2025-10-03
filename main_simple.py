@@ -140,6 +140,77 @@ async def get_brief_status(brief_id: str):
             ],
             "trending_topics": [topic.lower(), target_audience.lower(), "dicas", "conteudo"]
         },
+        "content_creator_result": {
+            "full_content": [
+                {
+                    "type": "post_completo",
+                    "title": f"Guia Completo: {topic} para {target_audience}",
+                    "content": f"""
+🎯 **{topic.upper()} PARA {target_audience.upper()}**
+
+Olá, {target_audience.lower()}! Hoje vou compartilhar tudo que você precisa saber sobre {topic.lower()}.
+
+📍 **Por que isso é importante?**
+{topic} tem se tornado cada vez mais relevante para {target_audience.lower()}, especialmente porque pode transformar completamente a forma como você trabalha e se relaciona com seu público.
+
+🔥 **Principais benefícios:**
+• Maior engajamento com seu público
+• Resultados mais consistentes
+• Economia de tempo e recursos
+• Diferenciação no mercado
+
+💡 **Dica prática:**
+Comece implementando {topic.lower()} de forma gradual. Teste uma estratégia por vez e meça os resultados antes de expandir.
+
+📈 **Próximos passos:**
+1. Defina seus objetivos claros
+2. Escolha as ferramentas certas
+3. Crie um cronograma realista
+4. Monitore e ajuste constantemente
+
+Salva esse post e me conta nos comentários: qual sua maior dificuldade com {topic.lower()}?
+
+#{topic.lower().replace(' ', '')} #{target_audience.lower().replace(' ', '')} #dicas #conteudo #estrategia
+                    """,
+                    "platform": platforms[0] if platforms else "instagram",
+                    "estimated_reach": "5k-15k",
+                    "engagement_prediction": "alto"
+                },
+                {
+                    "type": "carrossel",
+                    "title": f"7 Passos para Dominar {topic}",
+                    "slides": [
+                        f"Slide 1: Introdução ao {topic}",
+                        f"Slide 2: Primeiro passo - Planejamento",
+                        f"Slide 3: Segundo passo - Execução",
+                        f"Slide 4: Terceiro passo - Monitoramento",
+                        f"Slide 5: Quarto passo - Otimização",
+                        f"Slide 6: Quinto passo - Expansão",
+                        f"Slide 7: Sexto passo - Automação",
+                        f"Slide 8: Sétimo passo - Resultados"
+                    ],
+                    "platform": "instagram",
+                    "design_notes": f"Use cores vibrantes, fonte legível, elementos visuais relacionados a {topic}"
+                }
+            ],
+            "content_pillars": [
+                f"Educação sobre {topic}",
+                f"Cases de sucesso em {topic}",
+                f"Dicas práticas para {target_audience}",
+                f"Tendências em {topic}",
+                "Bastidores e processos"
+            ],
+            "content_calendar": {
+                "segunda": f"Dica rápida sobre {topic}",
+                "terca": f"Case de sucesso com {target_audience}",
+                "quarta": f"Tutorial prático de {topic}",
+                "quinta": f"Tendências em {topic}",
+                "sexta": f"Reflexão sobre {topic}",
+                "sabado": "Conteúdo mais descontraído",
+                "domingo": "Inspiração e motivação"
+            },
+            "tone_guidelines": f"Tom {tonality}, linguagem acessível para {target_audience}, sempre educativo e prático"
+        },
         "task_id": brief_id,
         "created_at": datetime.now().isoformat(),
         "status": "completed"

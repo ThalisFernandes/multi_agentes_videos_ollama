@@ -250,6 +250,67 @@ function displayResults(result) {
         resultsDiv.appendChild(productionCard);
     }
     
+    // resultados do criador de conteúdo
+    if (result.content_creator_result) {
+        const contentCreatorCard = document.createElement('div');
+        contentCreatorCard.className = 'result-card';
+        contentCreatorCard.innerHTML = `
+            <h3>📝 Criador de Conteúdo Completo</h3>
+            <div class="result-content">
+                <h4>Conteúdo Completo Gerado:</h4>
+                ${result.content_creator_result.full_content.map(content => `
+                    <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <h5>📄 ${content.title}</h5>
+                        <p><strong>Tipo:</strong> ${content.type}</p>
+                        <p><strong>Plataforma:</strong> ${content.platform}</p>
+                        ${content.estimated_reach ? `<p><strong>Alcance Estimado:</strong> ${content.estimated_reach}</p>` : ''}
+                        ${content.engagement_prediction ? `<p><strong>Previsão de Engajamento:</strong> ${content.engagement_prediction}</p>` : ''}
+                        
+                        ${content.content ? `
+                            <div style="margin-top: 10px;">
+                                <h6>Conteúdo:</h6>
+                                <div style="background: white; padding: 10px; border-radius: 5px; white-space: pre-line; font-family: inherit; line-height: 1.5;">
+                                    ${content.content}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${content.slides ? `
+                            <div style="margin-top: 10px;">
+                                <h6>Slides do Carrossel:</h6>
+                                <ul>
+                                    ${content.slides.map(slide => `<li>${slide}</li>`).join('')}
+                                </ul>
+                                ${content.design_notes ? `<p><strong>Notas de Design:</strong> ${content.design_notes}</p>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('')}
+                
+                <h4>Pilares de Conteúdo:</h4>
+                <ul>
+                    ${result.content_creator_result.content_pillars.map(pilar => `<li>${pilar}</li>`).join('')}
+                </ul>
+                
+                <h4>Calendário de Conteúdo Semanal:</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 10px;">
+                    ${Object.entries(result.content_creator_result.content_calendar).map(([dia, conteudo]) => `
+                        <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; text-align: center;">
+                            <strong>${dia.charAt(0).toUpperCase() + dia.slice(1)}</strong><br>
+                            <small>${conteudo}</small>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div style="margin-top: 15px; padding: 10px; background: #fff3cd; border-radius: 8px;">
+                    <h6>📋 Diretrizes de Tom:</h6>
+                    <p>${result.content_creator_result.tone_guidelines}</p>
+                </div>
+            </div>
+        `;
+        resultsDiv.appendChild(contentCreatorCard);
+    }
+    
     // ideias de conteúdo
     if (result.content_ideas) {
         const ideasCard = document.createElement('div');
