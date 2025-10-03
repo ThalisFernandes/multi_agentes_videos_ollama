@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 app = FastAPI(
@@ -8,9 +10,27 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# configuração CORS para permitir acesso do frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # em produção, especificar domínios
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# monta arquivos estáticos
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 @app.get("/")
 async def root():
     return {"message": "Sistema Multi-Agentes funcionando!", "status": "online"}
+
+@app.get("/app")
+async def serve_frontend():
+    """Serve o frontend da aplicação"""
+    from fastapi.responses import FileResponse
+    return FileResponse('static/index.html')
 
 @app.get("/health")
 async def health_check():
