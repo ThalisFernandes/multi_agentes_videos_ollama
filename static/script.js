@@ -141,10 +141,17 @@ function updateStatusDisplay(data) {
 
 // exibe os resultados na interface
 function displayResults(result) {
-    const resultsDiv = document.getElementById('results');
+    const resultsDiv = document.getElementById('resultsSection');
     
     // limpa resultados anteriores
     resultsDiv.innerHTML = '';
+    
+    // mostra a seção de resultados
+    resultsDiv.style.display = 'block';
+    
+    // debug: log do resultado completo
+    console.log('Resultado completo recebido:', result);
+    console.log('content_creator_result existe?', !!result.content_creator_result);
     
     // mostra informações do brief
     if (result.brief) {
