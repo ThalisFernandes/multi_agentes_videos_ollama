@@ -139,41 +139,144 @@ function updateStatusDisplay(data) {
     }
 }
 
-// exibe resultados
-function displayResults(results) {
-    // copywriter
-    if (results.copywriter_result) {
-        copywriterResult.textContent = formatResult(results.copywriter_result);
+// exibe os resultados na interface
+function displayResults(result) {
+    const resultsDiv = document.getElementById('results');
+    
+    // limpa resultados anteriores
+    resultsDiv.innerHTML = '';
+    
+    // mostra informações do brief
+    if (result.brief) {
+        const briefCard = document.createElement('div');
+        briefCard.className = 'result-card';
+        briefCard.innerHTML = `
+            <h3>📋 Brief Processado</h3>
+            <div class="result-content">
+                <p><strong>Tópico:</strong> ${result.brief.topic}</p>
+                <p><strong>Público-alvo:</strong> ${result.brief.target_audience}</p>
+                <p><strong>Tom:</strong> ${result.brief.tonality}</p>
+                <p><strong>Plataformas:</strong> ${result.brief.platforms.join(', ')}</p>
+                ${result.brief.additional_info ? `<p><strong>Informações adicionais:</strong> ${result.brief.additional_info}</p>` : ''}
+            </div>
+        `;
+        resultsDiv.appendChild(briefCard);
     }
     
-    // editor
-    if (results.editor_result) {
-        editorResult.textContent = formatResult(results.editor_result);
+    // resultados do copywriter
+    if (result.copywriter_result) {
+        const copyCard = document.createElement('div');
+        copyCard.className = 'result-card';
+        copyCard.innerHTML = `
+            <h3>✍️ Copywriter</h3>
+            <div class="result-content">
+                <h4>Script Principal:</h4>
+                <p><strong>Plataforma:</strong> ${result.copywriter_result.scripts[0].platform}</p>
+                <p><strong>Script:</strong> ${result.copywriter_result.scripts[0].script}</p>
+                <p><strong>Hook:</strong> ${result.copywriter_result.scripts[0].hook}</p>
+                <p><strong>CTA:</strong> ${result.copywriter_result.scripts[0].cta}</p>
+                <p><strong>Hashtags:</strong> ${result.copywriter_result.hashtags.join(' ')}</p>
+                <p><strong>Cronograma:</strong> ${result.copywriter_result.posting_schedule}</p>
+            </div>
+        `;
+        resultsDiv.appendChild(copyCard);
     }
     
-    // images
-    if (results.images_result) {
-        imagesResult.textContent = formatResult(results.images_result);
+    // resultados do editor
+    if (result.editor_result) {
+        const editorCard = document.createElement('div');
+        editorCard.className = 'result-card';
+        editorCard.innerHTML = `
+            <h3>📝 Editor</h3>
+            <div class="result-content">
+                <h4>Script Final Otimizado:</h4>
+                <p>${result.editor_result.final_script}</p>
+                <h4>Melhorias Sugeridas:</h4>
+                <ul>
+                    ${result.editor_result.improvements.map(imp => `<li>${imp}</li>`).join('')}
+                </ul>
+                <p><strong>Score de Engajamento:</strong> ${result.editor_result.engagement_score}/10</p>
+            </div>
+        `;
+        resultsDiv.appendChild(editorCard);
     }
     
-    // production
-    if (results.production_result) {
-        productionResult.textContent = formatResult(results.production_result);
+    // resultados de imagens
+    if (result.images_result) {
+        const imagesCard = document.createElement('div');
+        imagesCard.className = 'result-card';
+        imagesCard.innerHTML = `
+            <h3>🎨 Especialista em Imagens</h3>
+            <div class="result-content">
+                <h4>Prompts para Geração de Imagens:</h4>
+                <ul>
+                    ${result.images_result.prompts.map(prompt => `<li>${prompt}</li>`).join('')}
+                </ul>
+                <h4>Dicas de Composição:</h4>
+                <ul>
+                    ${result.images_result.composition_tips.map(tip => `<li>${tip}</li>`).join('')}
+                </ul>
+                <h4>Paleta de Cores:</h4>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    ${result.images_result.color_palette.map(color => 
+                        `<div style="width: 30px; height: 30px; background: ${color}; border-radius: 5px; border: 1px solid #ddd;" title="${color}"></div>`
+                    ).join('')}
+                </div>
+            </div>
+        `;
+        resultsDiv.appendChild(imagesCard);
     }
     
-    // content ideas
-    if (results.content_ideas) {
-        contentIdeasResult.textContent = formatResult(results.content_ideas);
+    // resultados de produção
+    if (result.production_result) {
+        const productionCard = document.createElement('div');
+        productionCard.className = 'result-card';
+        productionCard.innerHTML = `
+            <h3>🎬 Especialista em Produção</h3>
+            <div class="result-content">
+                <h4>Planos de Filmagem:</h4>
+                <ul>
+                    ${result.production_result.filming_plans.map(plan => 
+                        `<li><strong>${plan.shot_type}:</strong> ${plan.background} - ${plan.lighting}</li>`
+                    ).join('')}
+                </ul>
+                <h4>Falas do Apresentador:</h4>
+                <ul>
+                    ${result.production_result.presenter_lines.map(line => `<li>"${line}"</li>`).join('')}
+                </ul>
+                <p><strong>Ritmo de Edição:</strong> ${result.production_result.editing_rhythm}</p>
+            </div>
+        `;
+        resultsDiv.appendChild(productionCard);
     }
     
-    // mostra seção de resultados
-    resultsSection.style.display = 'block';
-    resultsSection.classList.add('fade-in');
+    // ideias de conteúdo
+    if (result.content_ideas) {
+        const ideasCard = document.createElement('div');
+        ideasCard.className = 'result-card';
+        ideasCard.innerHTML = `
+            <h3>💡 Ideias de Conteúdo</h3>
+            <div class="result-content">
+                <h4>Sugestões de Conteúdo:</h4>
+                ${result.content_ideas.content_ideas.map(idea => `
+                    <div style="margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                        <h5>${idea.title}</h5>
+                        <p><strong>Conceito:</strong> ${idea.concept}</p>
+                        <p><strong>Potencial Viral:</strong> ${(idea.viral_potential * 100).toFixed(0)}%</p>
+                        <p><strong>Plataformas:</strong> ${idea.platform_fit.join(', ')}</p>
+                    </div>
+                `).join('')}
+                <h4>Tópicos em Alta:</h4>
+                <p>${result.content_ideas.trending_topics.map(topic => `#${topic}`).join(' ')}</p>
+            </div>
+        `;
+        resultsDiv.appendChild(ideasCard);
+    }
     
-    // scroll suave para os resultados
+    // adiciona botões de cópia após exibir todos os resultados
     setTimeout(() => {
-        resultsSection.scrollIntoView({ behavior: 'smooth' });
-    }, 300);
+        addCopyButtons();
+    }, 100);
 }
 
 // formata resultado para exibição
