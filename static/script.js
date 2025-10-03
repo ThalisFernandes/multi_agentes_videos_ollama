@@ -304,22 +304,26 @@ function addCopyButtons() {
     
     resultCards.forEach(card => {
         const content = card.querySelector('.result-content');
-        if (content && content.textContent.trim()) {
+        if (content && content.textContent.trim() && !content.textContent.includes('Aguardando')) {
             // verifica se já tem botão
             if (!card.querySelector('.copy-btn')) {
                 const copyBtn = document.createElement('button');
                 copyBtn.className = 'copy-btn';
-                copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copiar';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copiar Resultado';
                 copyBtn.style.cssText = `
                     background: #667eea;
                     color: white;
                     border: none;
-                    padding: 8px 15px;
-                    border-radius: 5px;
+                    padding: 10px 20px;
+                    border-radius: 8px;
                     cursor: pointer;
-                    font-size: 0.9rem;
-                    margin-top: 10px;
-                    transition: background 0.3s ease;
+                    font-size: 0.95rem;
+                    font-weight: 600;
+                    margin-top: 15px;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
                 `;
                 
                 copyBtn.addEventListener('click', () => {
@@ -328,10 +332,14 @@ function addCopyButtons() {
                 
                 copyBtn.addEventListener('mouseenter', () => {
                     copyBtn.style.background = '#5a67d8';
+                    copyBtn.style.transform = 'translateY(-2px)';
+                    copyBtn.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.3)';
                 });
                 
                 copyBtn.addEventListener('mouseleave', () => {
                     copyBtn.style.background = '#667eea';
+                    copyBtn.style.transform = 'translateY(0)';
+                    copyBtn.style.boxShadow = 'none';
                 });
                 
                 card.appendChild(copyBtn);
